@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,10 +42,15 @@ public class MainActivity extends Activity {
     private class retrieveData extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
+            JSONParser jParser = new JSONParser();
             jsonObject = jsonParser.makeHttpRequest("https://data.gov.in/api/datastore/resource.json?resource_id=b4d77a09-9cdc-4a5b-b900-8fddb78f3cbe&api-key=abcac7ea2c8e7c924ea3477c3c8741aa&filters[city]="+ cityName);
             try {
+
                 sb = jsonObject.getString("records");
-                Log.e("cityName", sb);
+                String id = jsonObject.getString("id");
+                Log.e("id",id);
+                Log.e("cityName", ""+sb);
+                Toast.makeText(MainActivity.this,"cokj",Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e) {
                 e.printStackTrace();
