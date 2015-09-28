@@ -1,11 +1,12 @@
 package com.example.root.hospitalsnearyou;
 
+import com.example.root.hospitalsnearyou.ModelClass.ModelClassDB;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,12 +24,13 @@ public class JSONParser {
     static InputStream inputStream = null;
     static JSONObject jsonObject = null;
     static String json = "";
+    ModelClassDB modelClassDB = new ModelClassDB();
 
     public JSONParser() {
 
     }
 
-    public void makeHttpRequest(String url) {
+    public JSONObject makeHttpRequest(String url) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(url);
         try {
@@ -61,20 +63,7 @@ public class JSONParser {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        if(jsonObject !=null )
-        {
-            try {
-                JSONArray jsonArray=jsonObject.getJSONArray("data");
-                for(int i=0; i<jsonArray.length();i++)
-                {
-                 JSONArray  array=   jsonArray.getJSONArray(i);
-                    array.get(0).toString();
 
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-//        return jsonObject;
+   return jsonObject;
     }
 }
