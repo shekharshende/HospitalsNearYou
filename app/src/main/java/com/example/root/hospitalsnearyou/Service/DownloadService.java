@@ -1,8 +1,12 @@
 package com.example.root.hospitalsnearyou.Service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.root.hospitalsnearyou.DB.HospitalDataBase;
 import com.example.root.hospitalsnearyou.ModelClass.ModelClassDB;
@@ -15,36 +19,47 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DownloadService extends Service {
-    JSONParser jsonParser=new JSONParser();
-    JSONObject jsonObject=null;
+    JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = null;
     HospitalDataBase hospitalDataBase;
+
     public DownloadService() {
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        hospitalDataBase=new HospitalDataBase(getApplicationContext());
+        hospitalDataBase = new HospitalDataBase(getApplicationContext());
 //        hospitalDataBase.readFromDatabase();
         new Thread(new Runnable() {
             @Override
             public void run() {
-              jsonObject=  jsonParser.makeHttpRequest("https://data.gov.in/api/datastore/resource.json?resource_id=b4d77a09-9cdc-4a5b-b900-8fddb78f3cbe&api-key=abcac7ea2c8e7c924ea3477c3c8741aa");
-                addToDatabase( jsonObject);
-
+                if (isNetworkAvailable(getApplicationContext())) {
+                    jsonObject = jsonParser.makeHttpRequest("https://data.gov.in/api/datastore/resource.json?resource_id=b4d77a09-9cdc-4a5b-b900-8fddb78f3cbe&api-key=abcac7ea2c8e7c924ea3477c3c8741aa");
+                   ArrayList<ModelClassDB> arrayList = hospitalDataBase.readFromDatabase();
+                if(arrayList.size()==0){
+                    addToDatabase(jsonObject);
+                } }else {
+                    Toast.makeText(getApplicationContext(), "No Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         }).start();
         return START_STICKY;
     }
 
+    private boolean isNetworkAvailable(final Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
+
     private void addToDatabase(JSONObject jsonObject1) {
-        ArrayList<ModelClassDB> arrayList=new ArrayList<>();
+        ArrayList<ModelClassDB> arrayList = new ArrayList<>();
         if (jsonObject1 != null) {
             try {
                 JSONArray jsonArray = this.jsonObject.getJSONArray("records");
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject array = jsonArray.getJSONObject(i);
-                    ModelClassDB modelClassDB=new ModelClassDB();
+                    ModelClassDB modelClassDB = new ModelClassDB();
                     modelClassDB.setHospitalId(array.getString("id"));
                     modelClassDB.setState(array.getString("State"));
                     modelClassDB.setCity(array.getString("City"));
@@ -64,8 +79,11 @@ public class DownloadService extends Service {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            Log.e("Size ::::", "" + arrayList.size());
             hospitalDataBase.open();
-            hospitalDataBase.insertIntoDb(arrayList);
+            if (arrayList.size() > 0) {
+                hospitalDataBase.insertIntoDb(arrayList);
+            }
 
         }
     }

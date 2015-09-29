@@ -21,6 +21,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+   //     HospitalNameList playerFragment = (HospitalNameList) getFragmentManager().findFragmentById(R.id.FragmentContainer);
         Intent intent=new Intent(MainActivity.this,DownloadService.class);
         startService(intent);
 //        btnSubmit.setOnClickListener(new View.OnClickListener() {

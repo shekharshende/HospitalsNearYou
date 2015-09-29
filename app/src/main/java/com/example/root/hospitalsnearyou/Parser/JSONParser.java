@@ -42,28 +42,30 @@ public class JSONParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = null;
+
+        if (inputStream != null) {
             try {
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line + "\n");
-                }
-                inputStream.close();
-                json = stringBuilder.toString();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
+                StringBuilder stringBuilder = new StringBuilder();
+                String line = null;
                 try {
-                    jsonObject = new JSONObject(json);
-                } catch (JSONException e) {
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    inputStream.close();
+                    json = stringBuilder.toString();
+                    try {
+                        jsonObject = new JSONObject(json);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } catch (IOException e) {
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
-
-   return jsonObject;
+        return jsonObject;
     }
 }

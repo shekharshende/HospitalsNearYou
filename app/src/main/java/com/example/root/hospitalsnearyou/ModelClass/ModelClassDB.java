@@ -5,46 +5,25 @@ package com.example.root.hospitalsnearyou.ModelClass;
  */
 public class ModelClassDB {
     private String hospitalId;
+    private String timestamp;
     private String state;
     private String city;
-    private String district;
-    private String hospitalName;
-    private String address;
-    private String pincode;
-    private String contact;
-    private String helpline;
-    private String fax;
+    private String pvt;
     private String category;
     private String website;
     private String email;
-    private String blood_component;
-    private String blood_group;
-    private String service_time;
-    private String latitude;
-    private String longitude;
+    private String contact;
+    private String systemsOfMedicine;
+    private String pincode;
+    private String specializations;
+    private String services;
 
-    public String getAddress() {
-        return address;
+    public String getSpecializations() {
+        return specializations;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getBlood_component() {
-        return blood_component;
-    }
-
-    public void setBlood_component(String blood_component) {
-        this.blood_component = blood_component;
-    }
-
-    public String getBlood_group() {
-        return blood_group;
-    }
-
-    public void setBlood_group(String blood_group) {
-        this.blood_group = blood_group;
+    public void setSpecializations(String specializations) {
+        this.specializations = specializations;
     }
 
     public String getCategory() {
@@ -71,12 +50,12 @@ public class ModelClassDB {
         this.contact = contact;
     }
 
-    public String getDistrict() {
-        return district;
+    public String getPvt() {
+        return pvt;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setPvt(String pvt) {
+        this.pvt = pvt;
     }
 
     public String getEmail() {
@@ -87,20 +66,20 @@ public class ModelClassDB {
         this.email = email;
     }
 
-    public String getFax() {
-        return fax;
+    public String getServices() {
+        return services;
     }
 
-    public void setFax(String fax) {
-        this.fax = fax;
+    public void setServices(String services) {
+        this.services = services;
     }
 
-    public String getHelpline() {
-        return helpline;
+    public String getSystemsOfMedicine() {
+        return systemsOfMedicine;
     }
 
-    public void setHelpline(String helpline) {
-        this.helpline = helpline;
+    public void setSystemsOfMedicine(String systemsOfMedicine) {
+        this.systemsOfMedicine = systemsOfMedicine;
     }
 
     public String getHospitalId() {
@@ -111,28 +90,12 @@ public class ModelClassDB {
         this.hospitalId = hospitalId;
     }
 
-    public String getHospitalName() {
-        return hospitalName;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setHospitalName(String hospitalName) {
-        this.hospitalName = hospitalName;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getPincode() {
@@ -141,14 +104,6 @@ public class ModelClassDB {
 
     public void setPincode(String pincode) {
         this.pincode = pincode;
-    }
-
-    public String getService_time() {
-        return service_time;
-    }
-
-    public void setService_time(String service_time) {
-        this.service_time = service_time;
     }
 
     public String getState() {

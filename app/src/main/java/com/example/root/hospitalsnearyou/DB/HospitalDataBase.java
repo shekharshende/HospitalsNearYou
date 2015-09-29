@@ -17,33 +17,26 @@ import java.util.ArrayList;
 public class HospitalDataBase {
     private static final String KEY_ROW_ID = "_id";
     private static final String KEY_HOSPITAL_ID = "hospitalId";
+    private static final String KEY_TIMESTAMP = "timestamp";
     public static final String KEY_STATE = "state";
     public static final String KEY_CITY = "city";
-    public static final String KEY_DISTRICT = "district";
-    private static final String KEY_HOSPITAL_NAME = "h_name";
-    private static final String KEY_ADDRESS = "address";
-    private static final String KEY_pincode = "pincode";
-    private static final String KEY_contact = "contact";
-    private static final String KEY_helpline = "helpline";
-    private static final String KEY_fax = "fax";
+    private static final String KEY_HOSPITAL_PRIVATE = "pvt";
     private static final String KEY_category = "category";
-    private static final String KEY_website = "website";
+    private static final String KEY_SYSTEM_OF_MEDICINE = "SystemsOfMedicine";
+    private static final String KEY_contact = "contact";
+    private static final String KEY_PINCODE = "pincode";
     private static final String KEY_email = "email";
-    private static final String KEY_blood_component = "blood_component";
-    private static final String KEY_blood_group = "blood_group";
-    private static final String KEY_service_time = "service_time";
-    private static final String KEY_latitude = "latitude";
-    private static final String KEY_longitude = "longitude";
+    private static final String KEY_website = "website";
+    private static final String KEY_Specializations = "Specializations";
+    private static final String KEY_SERVICES = "Services";
     private static final String TABLE_NAME = "hospital";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "hospitalDb";
 
     private static final String DATABASE_CREATE = "create table hospital(_id integer primary key autoincrement default 1, "
-            + "hospitalId text, state text , city text , district text , h_name text ," +
-            "address text , pincode text , contact text , helpline text ," +
-            "fax text , category text , website text , email text ," +
-            "blood_component text , blood_group text , service_time text ," +
-            "latitude text ," + "longitude integer  );";
+            + "hospitalId text, timestamp text, state text , city text , pvt text , category text , SystemsOfMedicine text ," +
+            "contact text , pincode text , email text ," +
+            "website text , Specializations text , Services text);";
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     ArrayList<ModelClassDB> hospitalData = new ArrayList<ModelClassDB>();
@@ -54,24 +47,19 @@ public class HospitalDataBase {
         this.hospitalData = hospitalData;
         for (int i = 0; i < hospitalData.size(); i++) {
             ContentValues values = new ContentValues();
-//            values.put(KEY_ADDRESS, hospitalData.get(i).getAddress());
-//            values.put(KEY_blood_component, hospitalData.get(i).getBlood_component());
-//            values.put(KEY_blood_group, hospitalData.get(i).getBlood_group());
-//            values.put(KEY_category, hospitalData.get(i).getCategory());
+            values.put(KEY_HOSPITAL_ID, hospitalData.get(i).getHospitalId());
+            values.put(KEY_TIMESTAMP, hospitalData.get(i).getTimestamp());
+            values.put(KEY_STATE, hospitalData.get(i).getState());
             values.put(KEY_CITY, hospitalData.get(i).getCity());
-//            values.put(KEY_contact, hospitalData.get(i).getContact());
-//            values.put(KEY_DISTRICT, hospitalData.get(i).getDistrict());
-//            values.put(KEY_email, hospitalData.get(i).getEmail());
-//            values.put(KEY_fax, hospitalData.get(i).getFax());
-//            values.put(KEY_helpline, hospitalData.get(i).getHelpline());
-//            values.put(KEY_HOSPITAL_NAME, hospitalData.get(i).getHospitalName());
-//            values.put(KEY_HOSPITAL_ID, hospitalData.get(i).getHospitalId());
-//            values.put(KEY_latitude, hospitalData.get(i).getLatitude());
-//            values.put(KEY_longitude, hospitalData.get(i).getLongitude());
-//            values.put(KEY_pincode, hospitalData.get(i).getPincode());
-//            values.put(KEY_service_time, hospitalData.get(i).getService_time());
-//            values.put(KEY_STATE hospitalData.get(i).getState());
-            // values.put(KEY_website, hospitalData.get(i).getWebsite());
+            values.put(KEY_HOSPITAL_PRIVATE, hospitalData.get(i).getPvt());
+            values.put(KEY_category, hospitalData.get(i).getCategory());
+            values.put(KEY_SYSTEM_OF_MEDICINE, hospitalData.get(i).getSystemsOfMedicine());
+            values.put(KEY_contact, hospitalData.get(i).getContact());
+            values.put(KEY_PINCODE, hospitalData.get(i).getPincode());
+            values.put(KEY_email, hospitalData.get(i).getEmail());
+            values.put(KEY_website, hospitalData.get(i).getWebsite());
+            values.put(KEY_Specializations, hospitalData.get(i).getSpecializations());
+            values.put(KEY_SERVICES, hospitalData.get(i).getServices());
             open();
             db.insert(TABLE_NAME, null, values);
         }
@@ -107,8 +95,9 @@ public class HospitalDataBase {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS hospital");
+            db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
             onCreate(db);
+            Log.e("dbdb", "upgraded");
         }
     }
 
@@ -129,7 +118,6 @@ public class HospitalDataBase {
                 modelClassDB.setCity(city);
                 modelClassDB.setState(state);
                 hospitalDataList.add(modelClassDB);
-                Log.e("data",city);
 
             } while (cursor.moveToNext());
         cursor.close();
