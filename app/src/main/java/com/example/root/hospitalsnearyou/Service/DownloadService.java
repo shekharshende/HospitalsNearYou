@@ -1,4 +1,4 @@
-package com.example.root.hospitalsnearyou;
+package com.example.root.hospitalsnearyou.Service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 import com.example.root.hospitalsnearyou.DB.HospitalDataBase;
 import com.example.root.hospitalsnearyou.ModelClass.ModelClassDB;
+import com.example.root.hospitalsnearyou.Parser.JSONParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,24 +45,19 @@ public class DownloadService extends Service {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject array = jsonArray.getJSONObject(i);
                     ModelClassDB modelClassDB=new ModelClassDB();
-//                    modelClassDB.setHospitalId(array.get(0).toString());
+                    modelClassDB.setHospitalId(array.getString("id"));
                     modelClassDB.setState(array.getString("State"));
                     modelClassDB.setCity(array.getString("City"));
-//                    modelClassDB.setDistrict(array.get(3).toString());
-//                    modelClassDB.setHospitalName(array.get(4).toString());
-//                    modelClassDB.setAddress(array.get(5).toString());
-//                    modelClassDB.setPincode(array.get(6).toString());
-//                    modelClassDB.setContact(array.get(7).toString());
-//                    modelClassDB.setHelpline(array.get(8).toString());
-//                    modelClassDB.setFax(array.get(9).toString());
-//                    modelClassDB.setCategory(array.get(10).toString());
-//                    modelClassDB.setWebsite(array.get(11).toString());
-//                    modelClassDB.setEmail(array.get(12).toString());
-//                    modelClassDB.setBlood_component(array.get(13).toString());
-//                    modelClassDB.setBlood_group(array.get(14).toString());
-//                    modelClassDB.setService_time(array.get(15).toString());
-//                    modelClassDB.setLatitude(array.get(16).toString());
-//                    modelClassDB.setLongitude(array.get(17).toString());
+                    modelClassDB.setPvt(array.getString("Hospital / Private"));
+                    modelClassDB.setCategory(array.getString("Category"));
+                    modelClassDB.setSpecializations(array.getString("Specializations"));
+                    modelClassDB.setPincode(array.getString("AREA Pin CODE"));
+                    modelClassDB.setContact(array.getString("Contact Details"));
+                    modelClassDB.setSystemsOfMedicine(array.getString("Systems of Medicine"));
+                    modelClassDB.setServices(array.getString("Services"));
+                    modelClassDB.setWebsite(array.getString("Website link"));
+                    modelClassDB.setTimestamp(array.getString("timestamp"));
+                    modelClassDB.setEmail(array.getString("Email address"));
                     arrayList.add(modelClassDB);
 
                 }

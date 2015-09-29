@@ -1,4 +1,4 @@
-package com.example.root.hospitalsnearyou;
+package com.example.root.hospitalsnearyou.Parser;
 
 import com.example.root.hospitalsnearyou.ModelClass.ModelClassDB;
 

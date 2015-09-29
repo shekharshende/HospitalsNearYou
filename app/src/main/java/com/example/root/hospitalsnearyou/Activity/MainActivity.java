@@ -1,11 +1,12 @@
-package com.example.root.hospitalsnearyou;
+package com.example.root.hospitalsnearyou.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import com.example.root.hospitalsnearyou.Parser.JSONParser;
+import com.example.root.hospitalsnearyou.R;
+import com.example.root.hospitalsnearyou.Service.DownloadService;
 
 import org.json.JSONObject;
 
@@ -14,18 +15,12 @@ public class MainActivity extends Activity {
     JSONParser jsonParser = new JSONParser();
     String sb;
     JSONObject jsonObject = null;
-    TextView txtHospitals;
-    EditText edtCityName;
-    Button btnSubmit;
     String cityName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txtHospitals = (TextView) findViewById(R.id.btnGet);
-        btnSubmit = (Button) findViewById(R.id.button);
-        edtCityName = (EditText) findViewById(R.id.edittext);
         Intent intent=new Intent(MainActivity.this,DownloadService.class);
         startService(intent);
 //        btnSubmit.setOnClickListener(new View.OnClickListener() {
